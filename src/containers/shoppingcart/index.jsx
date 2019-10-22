@@ -10,8 +10,8 @@ import axios from 'axios';
 import ReactDOM from 'react-dom';
 import BScroll from 'better-scroll';
 class Shoppingcart extends Component {
-  constructor(prop){
-    super(prop)
+  constructor(props){
+    super(props)
     this.state={
       //获取localStorage中的存储的用户数据
       userMessage: localStorage.getItem('userMessage'),
@@ -19,8 +19,9 @@ class Shoppingcart extends Component {
       shopNum:1,
     }
   }
-  componentDidMount(){
-    // axios.get('http://localhost:8080/shops')
+   componentDidMount(){
+    // const result = await axios.get('http://localhost:5000/firstpage')
+    // console.log(result)
     //使用better-scroll
     let wrapper = document.querySelector('.shop-car')
     let scroll = new BScroll(wrapper,{
@@ -33,7 +34,7 @@ class Shoppingcart extends Component {
   }
   //卸载购物车商品
   deleteShopItem(index){
-    ReactDOM.unmountComponentAtNode(document.getElementsByClassName('shop-car-item')[index])
+    // ReactDOM.unmountComponentAtNode(document.getElementsByClassName('shop-car-item')[index])
     document.getElementsByClassName('shop-car-item')[index].style.display = "none"
 
   }

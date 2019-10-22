@@ -1,0 +1,138 @@
+{
+  
+  "entrylist": [
+    {
+      "name": "手机",
+      "list": [
+        {
+          "name": "Redmi 8",
+           "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120"
+        },
+        {
+          "name": "Redmi 8A",
+           "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/39ad29e9dce40a7afa494fe9e0cf9b0d.png?thumb=1&w=120&h=120"
+        },
+        {
+          "name": "小米9",
+           "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/5b0d18a3033b43c0645b78dfc9d759a9.png?thumb=1&w=120&h=120"
+        },
+        {
+          "name": "小米MIX",
+           "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/266ad6dd5146deaf3ae3602a89e7a217.png?thumb=1&w=120&h=120"
+        }
+      ]
+    },
+    {
+      "name": "新品",
+      "list": [
+        {
+          "name": "小米9",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/5b0d18a3033b43c0645b78dfc9d759a9.png?thumb=1&w=120&h=120"
+        },
+        {
+          "name": "游戏本512G",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/bb90e130ecf2248e6dcbd239b72696e9.jpg?thumb=1&w=120&h=120"
+        },
+        {
+          "name": "全面屏电视EE",
+          "entryImg":"https://i8.mifile.cn/b2c-mimall-media/033cfa4ab48b9d776dcb69e730022561!120x120.png"
+        }
+      ]
+    },
+    {
+      "name": "电视",
+      "list": [
+        {
+          "name": "全面屏电视Pro",
+           "entryImg":"https://i8.mifile.cn/b2c-mimall-media/033cfa4ab48b9d776dcb69e730022561!120x120.png"
+        },
+        {
+          "name": "小米电视",
+           "entryImg":"https://i8.mifile.cn/b2c-mimall-media/ef288021164c70da7744f4f23702ed41!360x3600.jpg"
+        },
+        {
+          "name": "青春版4S",
+           "entryImg":"https://i8.mifile.cn/b2c-mimall-media/5fa634a89859bc25fb811bf13806daa8!360x3600.jpg"
+        }
+      ]
+    },
+    {
+      "name": "电脑 ",
+      "list": [
+        {
+          "name": "Air 12.5",
+           "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9da19c26b55c0c22fea23c3b8a31dc28.jpg?thumb=1&w=120&h=120"
+        },
+        {
+          "name": "Pro 15.6",
+           "entryImg":"https://i8.mifile.cn/b2c-mimall-media/0643559b70964014c1d672cc783121d2!120x120.jpg"
+        }
+      ]
+    },
+    {
+      "name": "小爱智能 ",
+      "list": [
+        {
+          "name": "小爱音箱",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/597e780fa48913fceccd084a81a7278d.jpg?thumb=1&w=120&h=120"
+        },
+        {
+          "name": "小爱老师",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/f7627c0014e279da55829cee0b51672c.png?thumb=1&w=120&h=120"
+        }
+      ]
+    },
+    {
+      "name": "路由器 ",
+      "list": [
+        {
+          "name": "AC2100",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/96368011161e6be0a0f1986f571ec11c.png?thumb=1&w=120&h=120"
+        },
+        {
+          "name": "路由4A",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3f1de02c01f94e2245f60184689bce59.jpg?thumb=1&w=120&h=120"
+        }
+      ]
+    },
+    {
+      "name": "生活电器",
+      "list": [
+        {
+          "name": "变频风扇",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/bdeb112cc683ea56dead55806cb78a55.jpg"
+        },
+        {
+          "name": "米家暖器",
+          "entryImg":"https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/42dd4b353c31d85d7949b848b5fc541b.jpg"
+        }
+      ]
+    },
+    {
+      "name": "数码配件",
+      "list": [
+        {
+          "name": "小米Air2",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/aaa8d4ef708e89f9063819a04a629c2d.jpg"
+        },
+        {
+          "name": "头戴耳机",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8a60f4d10dbcb83f0b0e357309baa36b.jpg"
+        }
+      ]
+    },
+    {
+      "name": "智能家居",
+      "list": [
+        {
+          "name": "智能插座",
+          "entryImg":"https://i8.mifile.cn/b2c-mimall-media/f36e0d59d9ca34440260fcb587c8906c!360x3600.jpg"
+        },
+        {
+          "name": "智能门铃",
+          "entryImg":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c78de362e75e32746942b1f7193d59f5.jpg"
+        }
+      ]
+    }
+  ]
+}

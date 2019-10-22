@@ -1,0 +1,9 @@
+{
+  "name": "koa-serve",
+  "version": "1.0.0",
+  "dependencies": {
+    "koa": "^2.10.0",
+    "koa-cors": "0.0.16",
+    "koa-router": "^7.4.0"
+  }
+}
