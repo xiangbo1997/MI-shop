@@ -23,7 +23,9 @@ class Shoppingcart extends Component {
     // axios.get('http://localhost:8080/shops')
     //使用better-scroll
     let wrapper = document.querySelector('.shop-car')
-    let scroll = new BScroll(wrapper)
+    let scroll = new BScroll(wrapper,{
+      click:true
+    })
     // setTimeout(() => {
     //   new BScroll(document.getElementById('shopcar'))
     // }, 1000);
