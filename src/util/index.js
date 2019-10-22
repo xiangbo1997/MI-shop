@@ -11,6 +11,7 @@
     
     var $r = $this.refs[$ref]
    
+   
   //如果true显示
   if(sign){
 
