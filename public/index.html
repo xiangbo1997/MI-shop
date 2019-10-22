@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <!-- meta标签，完美视口 -->
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <!-- 引入图标字体 -->
+  <link rel="stylesheet" href="/icon/iconfont.css">
+
+  <script src="/js/rem.js"></script>
+  <title>小米商城</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    (function () {
+        // 定义设计稿宽度
+        
+        var desginW = 375;
+
+        // 计算设计稿宽度下的字体大小
+        var desginFontSize = desginW / 10;
+
+        // 获取视口的宽度
+        var viewW = document.documentElement.clientWidth;
+
+        // 根据当前视口宽度，计算该视口下根元素字体大小
+        var fontSize = (viewW / desginW) * desginFontSize;
+
+        // 设置根元素字体大小
+        document.documentElement.style.fontSize = fontSize + 'px';
+    })();
+</script>
+</body>
+
+</html>

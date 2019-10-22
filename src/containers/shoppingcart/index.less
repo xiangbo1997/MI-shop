@@ -1,0 +1,146 @@
+//  @rem: 46.875rem;
+@rem: 375/10rem;
+.shop-car{
+	width: 100%;
+	height:100%;
+	overflow: hidden;
+	background-color: #fff;
+	position: relative;
+	// overflow: hidden;
+	.header{
+		width: 100%;
+		height:40/@rem;
+		background-color: #fff;
+		display:flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size:22/@rem;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index:999;
+		.goback{
+			margin-left:20/@rem;
+			font-size:22/@rem;
+		}
+		.shopcar{
+			font-size:20/@rem;
+
+		}
+		.search{
+			width:6%;
+			height:60%;
+			margin-right:20/@rem;
+			img{
+				width:100%;
+				height:100%;
+			}
+		}
+
+	}
+	.login-get-more{
+		margin-top:40/@rem;
+		width:100%;
+		height:54/@rem;
+		background-color: #eee;
+		display:flex;
+		justify-content: space-between;
+		align-items: center;
+		.login-later{
+			margin-left:20/@rem
+		}
+		.go-login{
+			font-size:12/@rem;
+			color:#666;
+			margin-right:20/@rem
+		}
+		&.hidden{
+			display:none;
+		}
+	}
+
+	.shop-car-empty{
+		widows: 100%;
+		height:60/@rem;
+		background-color: rgb(247,247,247);
+		display:flex;
+		justify-content: center;
+		align-items:center;
+		border-bottom :1/@rem solid #eee;
+		&.hidden{
+			display:none;
+		}
+		img{
+			width:40/@rem;
+			height:40/@rem;
+		}
+		.go-look{
+			width:60/@rem;
+			height:20/@rem;
+			border:1/@rem solid #666;
+			text-align: center;
+			line-height:20/@rem;
+			margin-left:20/@rem;
+
+		}
+	}
+	.guest-youlike{
+		widows: 100%;
+		height:65/@rem;
+		img{
+			width :100%;
+			height:100%;
+		}
+	}
+	.suggest{
+		width:100%;
+		height:33/@rem;
+		background-color: #fff;
+		color:#ccc;
+		text-align: center;
+		line-height:33/@rem;
+		font-size:12/@rem;
+	}
+	.shop-list{
+		width:100%;
+		background-color: #fff;
+		display:flex;
+		flex-wrap:wrap;
+		justify-content: space-around;
+
+		.shop-item{
+			width:50%;
+			height:280/@rem;
+			display:flex;
+			flex-wrap:wrap;
+			flex-direction: column;
+			align-items:center;
+			justify-content: center;
+			margin-top:1/@rem;
+			img{
+				width:98%;
+				height:190/@rem;
+			}
+			.desc{
+				margin-top:10/@rem;
+				font-size:14/@rem;
+				font-weight:400;
+				margin-left:13/@rem;
+			}
+			.price{
+				margin-top:10/@rem;
+				font-size:16/@rem;
+				color:#f40;
+				margin-left:10/@rem;
+			}
+
+		}
+	}
+	.go-buy-to-computed {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 52/@rem;
+	}
+}
