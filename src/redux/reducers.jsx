@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import {GETHOMEPAGE,} from './action-types'
+import { GETHOMEPAGE, ADD_SHOP, REDUCE_SHOP, CLEAR_SHOPCAR} from './action-types'
 function pages(state={},action) {
     switch (action.type){
         case GETHOMEPAGE:
@@ -16,8 +16,7 @@ function shop(state=[],action) {
             return state.splice(action.data,1)
         case CLEAR_SHOPCAR:
             return state = {}
-        default:
-            break;
+        default: state     
     }
 }
 export default combineReducers({
