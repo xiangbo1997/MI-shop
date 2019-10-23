@@ -1,0 +1,45 @@
+{
+  "nav":["推荐","手机","智能","电视","笔记本","家电"],
+  "phone":[
+    {
+      "phoneImg":"//cdn.cnbj1.fds.api.mi-img.com/mi-mall/918eafcf051967f9d212a649fad7de28.jpg?thumb=1&w=344&h=280",
+      "name":"Redmi Note 8 Pro",
+      "phoneHeader":"6400万全场景四摄",
+      "phonemoney":"￥1399起",
+       "detail":{
+        "version":["3+32", "6+64","8+128"],
+        "color":["black","white"]
+       }
+    },
+    {
+      "phoneImg":"//cdn.cnbj1.fds.api.mi-img.com/mi-mall/8025107813883a20d3f2d956ad80ea38.jpg?thumb=1&w=344&h=280",
+      "name":"Redmi Note 8",
+      "phoneHeader":"千元4800万四摄",
+      "phonemoney":"￥999起",
+      "detail":{
+        "version":["3+32", "6+64","8+128"],
+        "color":["black","white"]
+       }
+    },
+    {
+      "phoneImg":"//cdn.cnbj1.fds.api.mi-img.com/mi-mall/dc1255fd3e70b6cdd6409627ca59d3f7.jpg?thumb=1&w=344&h=280",
+      "name":"Redmi K20 Pro",
+      "phoneHeader":"骁龙855， 弹出全面屏",
+      "phonemoney":"￥2299起",
+      "detail":{
+        "version":["3+32", "6+64","8+128"],
+        "color":["black","white"]
+       }
+    },
+    {
+      "phoneImg":"//i8.mifile.cn/v1/a1/86143982-11ca-5249-e90c-eecfdb9b98a0.webp",
+      "name":"Redmi K20",
+      "pho+neHeader":"弹出全面屏，4800万三摄",
+      "phonemoney":"￥1799起",
+      "detail":{
+        "version":["3+32", "6+64","8+128"],
+        "color":["black","white"]
+       }
+    }
+  ]
+}

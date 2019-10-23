@@ -2,37 +2,45 @@ import React, { Component } from 'react'
 import { NavBar, Icon } from 'antd-mobile';
 import './less/index.less'
 import BScroll from 'better-scroll'
+import moduleName from 'axios';
+import Axios from 'axios';
 class Entry extends Component {
-  constructor(props) {
-    super(props)
-  }
   state = {
-    Bscroll: '',
+    Bscroll: {},
     navIndex: 0,
     scrollY: 0,
-    tops: []
+    tops: [],
+    list: [],
+    scroller: undefined,
+    scrollTo: 0,
   }
-  componentDidMount() {
+  async componentDidMount() {
+    const result = await Axios.get('http://localhost:5000/list')
+    this.setState({
+      list: result.data.entrylist
+    })
     const wrapper = this.refs.wrapper
     const scroll = new BScroll(wrapper, {
-      scrollX: false,
       click: true,
-      scrollY: true,
-      probeType: 1
+      probeType: 2
     })
     this.setState({
       Bscroll: scroll,
     })
     this.initTops()
-    console.log(this.state.tops)
     //监听滚动
     scroll.on('scroll', ({ x, y }) => {
-      this.scrollY = Math.abs(y)
-      console.log(this.scrollY)
+        this.setState({
+          scrollY: Math.abs(y)
+        })
+      console.log(this.state.scrollY)
     })
     scroll.on('scrollEnd', ({ x, y }) => {
-      this.scrollY = Math.abs(y)
+      this.setState({
+        scrollY: Math.abs(y)
+      })
     })
+    // this.setState({ scroller: scroll })
   }
   //初始化高度数组
   initTops = () => {
@@ -46,29 +54,51 @@ class Entry extends Component {
     })
     this.state.tops = tops
   }
+  //去商品详情页
+  gotoDetail = (item) => {
+    this.props.history.push({ pathname: '/shopdetail', query: { item } })
+  }
   //点击切换导航
   changeIndex = (index) => {
-    return () => {
+    //console.log('changeIndex', index)
+    //this.setState({ navIndex: index, scrollTo: index * 100 })
+    //    scrollY: Math.abs(y)
+      // this.setState({
+      //   navIndex: index
+      // })
+     
       this.setState({
         navIndex: index
       })
-      // console.log(index)
+      const scrollY = this.state.tops[index]
+      this.state.scrollY = scrollY
+      this.state.Bscroll.scrollTo(0,-scrollY,300)
+      console.log(index)
       console.log(this.state.navIndex)
-    }
+      //console.log(topIndex)
+
   }
   componentWillUpdate() {
-    console.log('hha1')
+    //第一加载页面时候 数组并没有初始化 所以需要先实例化一次
+    this.initTops()
     const { scrollY, tops } = this.state
-    const index = tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1])
-    console.log(index)
-    if(this.state.navIndex!==index){
+    const topIndex = tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1])
+    
+    if (this.state.navIndex !== topIndex) {
       this.setState({
-        navIndex:index
+        navIndex: topIndex
       })
     }
-    console.log(this.state.navIndex)
+    
+    // if (this.state.scroller) {
+    //   // this.state.scroller.scrollTo(0, this.state.scrollTo)
+    // }
   }
   render() {
+    const list = this.state.list.map((item, index) => {
+        return <li key={index} className={`${this.state.navIndex === index ? 'current' : ''}`} onClick={() => this.changeIndex(index)} >{item.name}</li>
+      
+    })
     return (
       <div className="entry">
         <NavBar
@@ -83,134 +113,32 @@ class Entry extends Component {
         <div className="entry-content">
           <div className="leftWrapper">
             <ul className="entry-left-list">
-              {['新品', '众筹', '手机'].map((item, index) => {
-                return (
-                  <li key={index} onClick={this.changeIndex(index)} className={`${this.state.navIndex === index ? 'current' : ''}`}>{item}</li>
-                )
-              })}
-              {/* <li className="current">新品</li>
-            <li>众筹</li>
-            <li>手机</li>
-            <li>电视</li>
-            <li>新品</li>
-            <li>众筹</li>
-            <li>手机</li>
-            <li>电视</li> */}
+              {list}
             </ul>
           </div>
           <div className="rightWrapper" ref="wrapper">
             <div className="entry-content-right" ref="rightList">
-              <div className="rightContent">
-                <div className="title">手机</div>
-                <ul className="rightUl">
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                </ul>
-              </div>
-              <div className="rightContent">
-                <div className="title">手机</div>
-                <ul className="rightUl">
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                </ul>
-              </div>
-              <div className="rightContent">
-                <div className="title">手机</div>
-                <ul className="rightUl">
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                  <li>
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a78e73027b202757a933083ddd6ffbe0.png?thumb=1&w=120&h=120" alt="" />
-                    <p>小米9</p>
-                  </li>
-                </ul>
-              </div>
+              {
+                this.state.list.map((item, index) => {
+                  return (
+                    <div className="rightContent" key={index}>
+                      <div className="title">{item.name}</div>
+                      <ul className="rightUl">
+                        {
+                          item.list.map((li, index) => {
+                            return (
+                              <li key={index} onClick={() => this.gotoDetail(li)}>
+                                <img src={li.entryImg} alt="" />
+                                <p>{li.name}</p>
+                              </li>
+                            )
+                          })
+                        }
+                      </ul>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
         </div>
@@ -218,5 +146,7 @@ class Entry extends Component {
     )
   }
 }
-
 export default Entry;
+{/* <div className="rightContent">
+              
+</div> */}

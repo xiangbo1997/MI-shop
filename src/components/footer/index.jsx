@@ -12,7 +12,7 @@ class Footer extends Component {
             <li><Link to="/home"><i className="iconfont icon-home" /> <p>首页</p></Link></li>
             <li><Link to="/entry"> <i className="iconfont icon-icon_category" /><p>分类</p></Link></li>
             <li><Link to="/shoppingcart"><i className="iconfont icon-gouwuche-xianxing" /><p>购物车</p></Link></li>
-            <li><Link to="/login"><i className="iconfont icon-user" /><p>我的</p></Link></li>
+            <li><Link to="/profile"><i className="iconfont icon-user" /><p>我的</p></Link></li>
           </ul>
           <Switch>
             {
