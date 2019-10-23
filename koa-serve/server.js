@@ -15,7 +15,15 @@ router.get('/firstpage', function (ctx) {
 router.get('/list', function (ctx) {
   const result = ctx.query.req
   console.log(result)
-  ctx.body = list
+  ctx.body = result
+})
+//用户信息
+router.get('/login', function (ctx) {
+  // console.log(ctx)
+  // console.log(ctx.query,'111111')
+  const result = ctx.query.req
+  // console.log(result,'-------')
+  ctx.body =ctx.query
 })
 app.use(cors()).use(router.routes()).use(router.allowedMethods())
 app.listen(5000, () => {
