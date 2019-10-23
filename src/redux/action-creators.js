@@ -1,4 +1,4 @@
-import { GETHOMEPAGE, GTE_USER } from './action-types'
+import { GETHOMEPAGE, GTE_USER,UPDATE_USER,REMOVE_USER ,SAVE_DISTRICT} from './action-types'
 import { rehomepage, reUserInfo } from '../api'
 export const gethome_page = (pages) => ({ type: GETHOMEPAGE, data: pages })
 export const gethome_pages = () => {
@@ -25,12 +25,18 @@ const getUserInfoSuccess = (user) => ({ type: GTE_USER, data: user })
 export const getUsrInfo =  (username, password) => {
   console.log(username, password)
   return async (dispatch) => {
-    console.log('-1-1-')
+   
     const result = await reUserInfo(username, password);
     console.log(result)
-    dispatch(getUserInfoSuccess(result))
+    dispatch(getUserInfoSuccess(result.data))
   }
 }
+//更新用户信息
+export const updateUserInfo=(user)=>({type:UPDATE_USER,data:user})
+//退出登录删除用户信息
+export const removeUserInfo =()=>({type:REMOVE_USER,data:{}});
+//存储地址信息
+export const updateDistrict =(district)=>({type:SAVE_DISTRICT,data:district})
 
 
 

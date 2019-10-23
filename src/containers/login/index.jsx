@@ -181,6 +181,7 @@ class Login extends Component {
       }
       //用户名
       if (userInfo === 'userName') {
+        //用户名正则，4到16位（字母，数字，下划线，减号）
         const reg = /^[a-zA-Z0-9_-]{4,16}$/
 
        
@@ -208,11 +209,12 @@ class Login extends Component {
       }
       // 密码
       if (userInfo === 'password') {
-        const reg = /^\d{8,}$/
+       // 至少8个字符，至少1个大写字母，1个小写字母和1个数字,不能包含特殊字符（非数字字母）
+        const reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
 
       
         if (!reg.test(value)) {
-          console.log('成功')
+        
           this.setState({
             valuePassword: {
               hasError: true,
@@ -222,7 +224,7 @@ class Login extends Component {
 
           });
         } else {
-          console.log('错误')
+         
           this.setState({
             valuePassword: {
               hasError: false,
@@ -246,7 +248,8 @@ class Login extends Component {
     let code=valueCode.value.trim()
     let userEmail=valueUserName.value.trim()
     let pwd=valuePassword.value.trim()
-    getUsrInfo(phone,code)
+  //  this.props.getUsrInfo(phone,code)
+   const {getUsrInfo}= this.props
     if(isPhone){
      
       // 手机号登录
@@ -256,17 +259,25 @@ class Login extends Component {
           if(+code===this.state.codeNumber){
             // 开始登录
             getUsrInfo(phone,code)
+            this.props.history.replace('/home')
+          }else{
+            Toast.info('请输入正确的验证码')
           }
       }
 
     }else{
       // 用户名登陆
+
+
+     
       if(userEmail&&pwd){
-          if(userEmail==='小明'&&pwd==='1234567345'||userEmail==='小红'&&pwd==='456135s33d'||
-          userEmail==='admin'&&pwd==='456135s33d'
+          if(userEmail==='xiaoming'&&pwd==='xiaoming123'||userEmail==='xiaohong'&&pwd==='xiaohong123'||
+          userEmail==='admin'&&pwd==='admin123'
           ){
             //开始登录
-            getUsrInfo(userEmail,pwd)
+            getUsrInfo(userEmail,pwd);
+            //跳转到home页
+            this.props.history.replace('/home')
             // 清空表单
             this.setState({
              valuePhone:{
@@ -275,6 +286,8 @@ class Login extends Component {
              valueCode:{}
             })
            
+          }else{
+            Toast.info('请输入正确的用户名或密码')
           }
       }
     }
@@ -321,6 +334,7 @@ class Login extends Component {
     this.setState({
       codeNumber:num
     }) 
+    // console.log(this.state.codeNumber)
     // 间隔时间
     const time = 10
     let { shyTime, } = this.state

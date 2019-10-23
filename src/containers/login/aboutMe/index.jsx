@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import './less/index.less'
-
+//引入工具函数切换元素显示隐藏
 import method from '../../../util'
-const {showOrHidden} = method
+import BScroll from 'better-scroll'
+const { showOrHidden } = method
 
 
 
@@ -45,92 +46,88 @@ class AboutUs extends Component {
         id: 8,
         url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571583618394&di=19e4a1128b9565c0a8cacf203ced4101&imgtype=jpg&src=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D828309451%2C2643080961%26fm%3D214%26gp%3D0.jpg"
       },
-    ],
-    index:0,
-    isShow:true
-    
-  }
-  componentDidUpdate(){
-    const {isShow} = this.state
-   showOrHidden(this,!isShow,'imgList') 
-   showOrHidden(this,isShow,'imgMark') 
-  
+    ],//展示的图片列表
+    index: 0,//每次展示图片的索引值（标识）
+    isShow: true //列表和遮罩层的显示与隐藏
 
-    // if(!this.state.isShow){
-      
-    //   this.imgList.current.style="display:none"
-    //   this.imgMark.current.style="display:block"
-    // }else{
-    //   this.imgList.current.style="display:block"
-    //   this.imgMark.current.style="display:none"
-    // }
   }
-  //查看大图
-  seeBigImg=(index)=>{
-    return ()=>{
-      // console.log(this.imgList.current)
-     
-        this.setState({
-        isShow:false,
+  componentDidUpdate() {
+    //页面初始化（页面显示遮罩层还是图片列表）
+    const { isShow } = this.state
+    showOrHidden(this, !isShow, 'imgList')
+    showOrHidden(this, isShow, 'imgMark')
+  }
+  //点击单个图片（查看对应的大图）
+  seeBigImg = (index) => {
+    return () => {
+      this.setState({
+        isShow: false,
         index
-        })
+      })
     }
 
-      
+
   }
-//显示列表
-markImg=()=>{
-  this.setState({
-    isShow:true
+  //点击显示列表
+  markImg = () => {
+    this.setState({
+      isShow: true
     })
 
+  }
+
+componentDidMount(){
+     //滑动
+     let wrapper = document.querySelector('.about-warp')
+     this.scroll = new BScroll(wrapper, {
+         click: true
+     })
+
 }
-
-
   render() {
-    const {showOrHidden} = method
+    const { showOrHidden } = method
     return (
-        <div className='whole'>
-  <div className='about-warp' ref='imgList'  >
-        <div className='about-header'>
-          <h1>图片展示墙</h1>
-         
+      <div className='whole'>
+        <div className='about-warp' ref='imgList'  >
+          <div>
+          <div className='about-header'>
+            <h1>图片展示墙</h1>
+
+          </div>
+          <div className='about-container'>
+            <ul className="album-list">
+              {this.state.images.map((item, index) => {
+                return <li onClick={this.seeBigImg(index)} key={index}><img src={item.url} /></li>
+              })
+
+              }
+
+            </ul>
+
+          </div>
+          <div className='about-footer'>
+            <div>商务合作</div>
+            <div>联系我们</div>
+            <div>联系电话：13706387374</div>
+
+          </div>
+            
+          </div>
+        
         </div>
-        <div className='about-container'>
-          <ul className="album-list">
-            {this.state.images.map((item, index) => { 
-              return  <li onClick={this.seeBigImg(index)} key={index}><img src={item.url} /></li> 
-            })
-               
-               }
+        <div className='mask' ref='imgMark' onClick={this.markImg} >
 
-          </ul>
-
-
-
-
-
-        </div>
-        <div className='about-footer'>
-          <div>商务合作</div>
-          <div>联系我们</div>
-          <div>联系电话：13706387374</div>
-
-        </div>
-      </div>
-      <div className='mask' ref='imgMark' onClick={this.markImg} >
-    
-      {this.state.images.map((item, index) => { 
-            if(index===this.state.index){
-              return  <div key={index} className='bigImg'><img src={item.url} /></div> 
+          {this.state.images.map((item, index) => {
+            if (index === this.state.index) {
+              return <div key={index} className='bigImg'><img src={item.url} /></div>
             }
-              
-            })
-               
-               }
-      </div>
+
+          })
+
+          }
         </div>
-    
+      </div>
+
     )
   }
 }
