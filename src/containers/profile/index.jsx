@@ -1,16 +1,30 @@
 import React,{Component} from 'react'
+import { connect } from 'react-redux';
 import './less/index.less'
-
+@connect(
+  (state) => ({user: state.user}),
+  null
+)
 class Profile extends Component {
+
   state={
 
   }
   goToShopDetail=()=>{
-   
-    this.props.history.push('/shopdetail');
+   if(this.props.user.username){
+    this.props.history.push('/shoppingcart');
+   }else{
+    this.props.history.push('/login');
+   }
+    
   }
   goToshopCar=()=>{
-    this.props.history.push('/shoppingcart');
+    if(this.props.user.username){
+      this.props.history.push('/shoppingcart');
+     }else{
+      this.props.history.push('/login');
+     }
+      
   }
 
   goToMistake=(e)=>{
@@ -19,14 +33,21 @@ class Profile extends Component {
       // console.log(e)
     }
   }
+  goTo=()=>{
+    if(this.props.user.username){
+      this.props.history.push('/profile/profileDetail')
+    }else{
+      this.props.history.push('/login')
+    }
+  }
   render () {
     return (
       <div className="profile-warp">
         <div className="profile-header">
           <div className="header-top">
             <div className='top-warp'>
-              <div className="top-left"><i className="iconfont icon-user" id="left-user"></i></div>
-              <div className="top-right">1111111</div>
+              <div className="top-left" onClick={this.goTo}><i className="iconfont icon-user" id="left-user"></i></div>
+              <div className="top-right">{this.props.user.username?this.props.user.username:'暂未登录'}</div>
             
            
             </div>

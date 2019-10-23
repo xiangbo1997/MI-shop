@@ -1,14 +1,23 @@
 import React, { Component } from 'react'
 //引入所需要antd-mobile组件
 import { List, InputItem, WhiteSpace, Button, Toast } from 'antd-mobile';
+import {getUsrInfo} from '../../redux/action-creators'
+import { connect } from 'react-redux';
+import {reUsrInfo} from '../../api'
 //引入less样式
 import './less/index.less'
 //引入react-router
 import { Link } from 'react-router-dom'
 import routes from '../../config/routes'
+//生成随机数
+import randomNum from '../../util/radumNuber'
 import { createForm } from 'rc-form';
 import method from '../../util';
 let { showOrHidden } = method
+@connect(
+  (state) => ({user: state.user}),
+  { getUsrInfo}
+)
 @createForm()
 class Login extends Component {
 
@@ -17,44 +26,45 @@ class Login extends Component {
 
   state = {
     toogleText: true,
-    
     phone: '',
     code: 0,
     username: '',
     password: '',
     isPhone: true,
-    shyTime:10,
-    isNumber:false,
-    isDisable:false,//按钮是否可以点击
-    isComplex:false,
-    valuePhone:{
+    shyTime: 10,
+    isNumber: false,
+    isDisable: false,//按钮是否可以点击
+    isComplex: false,
+    isLogin :true,
+    codeNumber:0,//短信验证码
+    valuePhone: {
       hasError: false,
       value: '',
     },
-    valueCode:{
+    valueCode: {
       hasError: false,
       value: '',
     },
-    valueUserName:{
+    valueUserName: {
       hasError: false,
       value: '',
     },
-    valuePassword:{
+    valuePassword: {
       hasError: false,
       value: '',
     }
-    
+
 
   }
   //切换繁体
   changeComplexFont = () => {
     this.setState({
       toogleText: false,
-      isComplex:true
+      isComplex: true
     })
 
   }
-  componentDidUpdate(){
+  componentDidUpdate() {
     showOrHidden(this, !this.state.isComplex, 'btn2')
     showOrHidden(this, this.state.isComplex, 'btn1')
   }
@@ -62,7 +72,7 @@ class Login extends Component {
   changeSimplifiled = () => {
     this.setState({
       toogleText: true,
-      isComplex:false
+      isComplex: false
 
     })
   }
@@ -73,156 +83,208 @@ class Login extends Component {
   onErrorClick = (e) => {
     return () => {
       console.log(e)
-      
-      if(e==='手机号码'){
+
+      if (e === '手机号码') {
         if (this.state.valuePhone.hasError) {
-         
+
           Toast.info(`请输入正确的${e}`);
-        }else{
-          this.setState({isDisable:false})
+        } else {
+          this.setState({ isDisable: false })
         }
 
       }
-      if(e==='短信验证码'){
+      if (e === '短信验证码') {
         if (this.state.valueCode.hasError) {
           Toast.info(`请输入正确的${e}`);
         }
 
       }
-      if(e==='用户名'){
+      if (e === '用户名') {
         if (this.state.valueUserName.hasError) {
           Toast.info(`请输入正确的${e}`);
         }
 
       }
-      if(e==='密码'){
+      if (e === '密码') {
         if (this.state.valuePassword.hasError) {
           Toast.info(`请输入正确的${e}`);
         }
 
       }
-      
+
     }
 
 
   }
- 
+
   // 高阶函数，表单校验
 
- onChange = (userInfo  ) => {
-   //手机号
-    return(value)=>{
-  
-      if(userInfo==='phone'){
+  onChange = (userInfo) => {
+    //手机号
+    return (value) => {
+
+      if (userInfo === 'phone') {
         const reg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
-        console.log(value,'------')
+       
         if (!reg.test(value)) {
-          console.log('成功')
+          
           this.setState({
-            valuePhone:{
+            valuePhone: {
               hasError: true,
               value,
-              
+
             },
-            isDisable:true
-           
+            isDisable: true,
+            //不许点击登录按钮
+            isLogin:true,
+
           });
         } else {
-          console.log('错误')
+          
           this.setState({
-            valuePhone:{
+            valuePhone: {
               hasError: false,
               value,
-             
+
             },
-            isDisable:false
+            isDisable: false,
+            isLogin: false
           });
         }
-        
+
       }
-    //  验证码
-       if(userInfo==='code'){
+      //  验证码
+      if (userInfo === 'code') {
         const reg = /^\d{6}$/
-       
-        console.log(value,'------')
+
+      
         if (!reg.test(value)) {
-          console.log('成功')
+          
           this.setState({
-            valueCode:{
+            valueCode: {
               hasError: true,
               value,
             },
-           
+            isLogin:true,
           });
         } else {
-          console.log('错误')
+          
           this.setState({
-            valueCode:{
+            valueCode: {
               hasError: false,
               value,
             },
+            isLogin:false,
           });
         }
-  
-       }
-       //用户名
-       if(userInfo==='userName'){
+
+      }
+      //用户名
+      if (userInfo === 'userName') {
         const reg = /^[a-zA-Z0-9_-]{4,16}$/
+
        
-        console.log(value,'------')
         if (!reg.test(value)) {
           console.log('成功')
           this.setState({
-            valueUserName:{
+            valueUserName: {
               hasError: true,
               value,
             },
-           
+            isLogin:true,
+
           });
         } else {
           console.log('错误')
           this.setState({
-            valueUserName:{
+            valueUserName: {
               hasError: false,
               value,
             },
+            isLogin:false,
           });
         }
-  
+
       }
       // 密码
-       if(userInfo==='password'){
+      if (userInfo === 'password') {
         const reg = /^\d{8,}$/
-       
-        console.log(value,'------')
+
+      
         if (!reg.test(value)) {
           console.log('成功')
           this.setState({
-            valuePassword:{
+            valuePassword: {
               hasError: true,
               value,
             },
-           
+            isLogin:true,
+
           });
         } else {
           console.log('错误')
           this.setState({
-            valuePassword:{
+            valuePassword: {
               hasError: false,
               value,
             },
+            isLogin:false,
           });
         }
-  
-  
+
+
       }
-  
-       }
-      
+
     }
-    
-    
-   
+
+  }
+//点击登录
+  userLogin= ()=>{
+    const {isPhone,valuePhone,valueCode,valuePassword,valueUserName} = this.state
+    // 判断登陆方式
+    let phone=valuePhone.value.trim()
+    let code=valueCode.value.trim()
+    let userEmail=valueUserName.value.trim()
+    let pwd=valuePassword.value.trim()
+    getUsrInfo(phone,code)
+    if(isPhone){
+     
+      // 手机号登录
+      if(phone&&code){
+          // 发送请求
+        
+          if(+code===this.state.codeNumber){
+            // 开始登录
+            getUsrInfo(phone,code)
+          }
+      }
+
+    }else{
+      // 用户名登陆
+      if(userEmail&&pwd){
+          if(userEmail==='小明'&&pwd==='1234567345'||userEmail==='小红'&&pwd==='456135s33d'||
+          userEmail==='admin'&&pwd==='456135s33d'
+          ){
+            //开始登录
+            getUsrInfo(userEmail,pwd)
+            // 清空表单
+            this.setState({
+             valuePhone:{
+               value:''
+             },
+             valueCode:{}
+            })
+           
+          }
+      }
+    }
+  
+    // getUsrInfo('xiaoming',123)
+    // getUsrInfo()
+    // const result =await reUsrInfo('xiaoming',123)
+    console.log(this.props)
+  }
+
 
 
 
@@ -231,7 +293,7 @@ class Login extends Component {
 
   //登陆方式切换
   goToLoginUser = () => {
-   
+
     const { isPhone } = this.state
     // this.props.history.push('/login/loginUser')
     this.setState({
@@ -244,39 +306,47 @@ class Login extends Component {
       showOrHidden(this, isPhone, 'phone')
       showOrHidden(this, !isPhone, 'username')
     }
-   
+
 
   }
 
-  sendCode=()=>{
+  sendCode = () => {
     Toast.info('验证码发送成功');
-//发送验证码
-    // 间隔时间
-    const time=10
-    let {shyTime,}= this.state
+    //发送验证码
+    // Math.random()*10
+    
+    let num =randomNum(100000,999999)
+    console.log(num,'----密码---')
+    // 存储随机数
     this.setState({
-      isNumber:true,
-      isDisable:true
+      codeNumber:num
+    }) 
+    // 间隔时间
+    const time = 10
+    let { shyTime, } = this.state
+    this.setState({
+      isNumber: true,
+      isDisable: true
     })
-    this.timeid = setInterval(()=>{
+    this.timeid = setInterval(() => {
       shyTime--
       // console.log(shyTime)
       this.setState({
-        shyTime:shyTime
+        shyTime: shyTime
       })
-      if(shyTime<1){  
-        console.log('关闭')
-        clearInterval( this.timeid)
+      if (shyTime < 1) {
+        
+        clearInterval(this.timeid)
         this.setState({
-          shyTime:time,
-          isDisable:false,
-          isNumber:false
+          shyTime: time,
+          isDisable: false,
+          isNumber: false
         })
 
       }
-      
-    },500)
-   
+
+    }, 500)
+
 
   }
   componentDidMount() {
@@ -285,6 +355,8 @@ class Login extends Component {
     showOrHidden(this, isPhone, 'username')
     showOrHidden(this, !this.state.isComplex, 'btn2')
     showOrHidden(this, this.state.isComplex, 'btn1')
+    console.log(this.props.user)
+    getUsrInfo('xiaoming',123)
   }
 
 
@@ -330,8 +402,8 @@ class Login extends Component {
               value={this.state.valueCode.value}
             >{this.state.toogleText ? '短信验证' : '短信驗證'}  </InputItem>
 
-            <button id="get-code" ref='btn1'disabled={this.state.isDisable} onClick={this.sendCode}>{this.state.isNumber?this.state.shyTime:'获取验证码'}</button>
-            <button id="get-code" ref='btn2' disabled={this.state.isDisable} onClick={this.sendCode} >{this.state.isNumber?this.state.shyTime:'獲取驗證碼'}</button>
+            <button id="get-code" ref='btn1' disabled={this.state.isDisable} onClick={this.sendCode}>{this.state.isNumber ? this.state.shyTime : '获取验证码'}</button>
+            <button id="get-code" ref='btn2' disabled={this.state.isDisable} onClick={this.sendCode} >{this.state.isNumber ? this.state.shyTime : '獲取驗證碼'}</button>
           </List>
         </div>
         <div className="username" ref='username'>
@@ -358,12 +430,12 @@ class Login extends Component {
               value={this.state.valuePassword.value}
             >{this.state.toogleText ? '密码' : '密碼'}  </InputItem>
 
-           
+
           </List>
         </div>
 
         <div className="login-methods">
-          <Button type='primary' className='login-btn'>{this.state.toogleText ? '立即登入/注册' : '立即登入/注冊'}</Button>
+          <Button type='primary' className='login-btn' onClick={this.userLogin} disabled={this.state.isLogin}>{this.state.toogleText ? '立即登入/注册' : '立即登入/注冊'}</Button>
           <Button className='login-btn' onClick={this.goToLoginUser}>{this.state.toogleText ? '用户名密码登录' : '用戶名密碼登入'}</Button>
         </div>
         <div className='login-footer'>
