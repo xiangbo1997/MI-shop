@@ -28,6 +28,7 @@ class Entry extends Component {
       Bscroll: scroll,
     })
     this.initTops()
+    console.log(this.state.tops)
     //监听滚动
     scroll.on('scroll', ({ x, y }) => {
         this.setState({
@@ -60,13 +61,6 @@ class Entry extends Component {
   }
   //点击切换导航
   changeIndex = (index) => {
-    //console.log('changeIndex', index)
-    //this.setState({ navIndex: index, scrollTo: index * 100 })
-    //    scrollY: Math.abs(y)
-      // this.setState({
-      //   navIndex: index
-      // })
-     
       this.setState({
         navIndex: index
       })
@@ -75,8 +69,6 @@ class Entry extends Component {
       this.state.Bscroll.scrollTo(0,-scrollY,300)
       console.log(index)
       console.log(this.state.navIndex)
-      //console.log(topIndex)
-
   }
   componentWillUpdate() {
     //第一加载页面时候 数组并没有初始化 所以需要先实例化一次
@@ -89,10 +81,6 @@ class Entry extends Component {
         navIndex: topIndex
       })
     }
-    
-    // if (this.state.scroller) {
-    //   // this.state.scroller.scrollTo(0, this.state.scrollTo)
-    // }
   }
   render() {
     const list = this.state.list.map((item, index) => {
