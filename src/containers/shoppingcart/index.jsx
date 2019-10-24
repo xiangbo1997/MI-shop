@@ -9,6 +9,9 @@ import { Link, Route, withRouter, Redirect, Switch } from 'react-router-dom';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 import BScroll from 'better-scroll';
+import store from '../../redux/store';
+import { deleteShop} from '../../redux/action-creators';
+@withRouter
 class Shoppingcart extends Component {
   constructor(props){
     super(props)
@@ -17,8 +20,32 @@ class Shoppingcart extends Component {
       userMessage: localStorage.getItem('userMessage'),
       //商品的个数：
       shopNum:1,
+      allprice:0
     }
   }
+  //更新总价
+ updataAllprice=()=>{
+   const { shops } = store.getState()
+  //  console.log(shops)
+
+
+  if(shops){
+    // let allprice = shops.reduce((prev, now) => {
+    //   return prev + now.isChecked ? ((now.num * now.price)):0
+    // },0)
+    let allprice = 0
+    for(let i=0;i<shops.length;i++){
+      if(shops[i].isChecked){
+        allprice += shops[i].num * shops[i].price
+      }
+    }
+    
+    this.setState({
+      allprice
+    })
+    // console.log(this.state.allprice)
+  }
+ }
    componentDidMount(){
     // const result = await axios.get('http://localhost:5000/firstpage')
     // console.log(result)
@@ -30,31 +57,39 @@ class Shoppingcart extends Component {
     // setTimeout(() => {
     //   new BScroll(document.getElementById('shopcar'))
     // }, 1000);
+     this.updataAllprice()
+
     
   }
   //卸载购物车商品
-  deleteShopItem(index){
+  deleteShopItem(index,item){
+  //  setTimeout(() => {
+  //    ReactDOM.unmountComponentAtNode(document.getElementsByClassName('shop-car-item')[index])
+  //  }, 0);
     // ReactDOM.unmountComponentAtNode(document.getElementsByClassName('shop-car-item')[index])
-    document.getElementsByClassName('shop-car-item')[index].style.display = "none"
-
+    ReactDOM.unmountComponentAtNode(document.getElementsByClassName('shop-car-item')[index])
+    // document.getElementsByClassName('shop-car-item')[index].style.display = "none"
+   
+    const action = deleteShop(item)
+    store.dispatch(action)
+    this.updataAllprice()
   }
-
+  //点击返回上一个界面
+  goBack=()=>{
+    this.props.history.goBack()
+  }
   render () {
+    //获取购物车中的商品
+
+    const { shops, isChecked } = store.getState()
+  
+
     return (
       <div className="shop-car" id="shopcar">
        <div>
           {/* 头部 */}
           <div className="header">
-            {/* antd的导航组件 */}
-            {/* <NavBar
-            mode="light"
-            icon={<Icon type="left" />}
-            onLeftClick={() => console.log('onLeftClick')}
-            rightContent={[
-              <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
-            ]}
-          >购物车</NavBar> */}
-            <Link to="/home" className="goback">&lt;</Link>
+            <Link to="/home" className="goback" onClick={this.goBack}>&lt;</Link>
             <div className="shopcar">购物车</div>
             <Link to="/home" className="search">
               <img src="https://static.easyicon.net/preview/122/1225492.gif" alt="" />
@@ -65,10 +100,16 @@ class Shoppingcart extends Component {
             <span className="login-later"> 登录后享受更多优惠</span>
             <span className="go-login">去登陆></span>
           </div>
-          {/* 具体加入购物车的商品 */}
-          <div className="shop-car-item">
-            <ShopCarItem deleteShopItem={this.deleteShopItem} />
-          </div>
+          {/* 具体加入购物车的商品 !!!!!!!!!!!!!*/}
+          {
+            shops.map((item, index) => {
+              return(
+                <div className="shop-car-item" key={index}>
+                  <ShopCarItem deleteShopItem={() => this.deleteShopItem(index, item)} updataAllprice={this.updataAllprice} item={item} index={index}/>
+                </div>
+              )
+            })
+          }
           {/* <div className="shop-car-item">
           <ShopCarItem />
         </div>
@@ -98,37 +139,22 @@ class Shoppingcart extends Component {
 
             <ShopList />
           </div>
-          <div className="shoplist">
+         
+          {shops.map((item,index)=>{
+            return (
+              <div className="shoplist" key={index}>
+                <ShopList item={item} key={index}  />
+              </div> 
+            )
+          })}
 
-            <ShopList />
-          </div>
-          {/* <ul className="shop-list">
-          <li className="shop-item">
-            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/4554aeb18a57bca9534cb8cfa3f659ba.jpg?thumb=1&w=360&h=360" alt="" />
-            <div className="desc">Redmi 8A 3GB+32GB</div>
-            <div className="price">￥699</div>
-          </li>
-          <li className="shop-item">
-            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/4554aeb18a57bca9534cb8cfa3f659ba.jpg?thumb=1&w=360&h=360" alt="" />
-            <div className="desc">Redmi 8A 3GB+32GB</div>
-            <div className="price">￥699</div>
-          </li>
-          <li className="shop-item">
-            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/4554aeb18a57bca9534cb8cfa3f659ba.jpg?thumb=1&w=360&h=360" alt="" />
-            <div className="desc">Redmi 8A 3GB+32GB</div>
-            <div className="price">￥699</div>
-          </li>
-          <li className="shop-item">
-            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/4554aeb18a57bca9534cb8cfa3f659ba.jpg?thumb=1&w=360&h=360" alt="" />
-            <div className="desc">Redmi 8A 3GB+32GB</div>
-            <div className="price">￥699</div>
-          </li>
-        </ul> */}
+
+        
           
        </div>
         {/* 结算 */}
-        <div className="go-buy-to-computed">
-          <GoBuytoComputed />
+        <div className="go-buy-to-computed" >
+          <GoBuytoComputed allprice={this.state.allprice}/>
         </div>
       </div>
     )

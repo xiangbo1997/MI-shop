@@ -6,6 +6,7 @@ class App extends Component {
   render() {
     return (
      <div id="warp">
+       
         <Footer />
      </div>
     
@@ -14,4 +15,4 @@ class App extends Component {
   }
 }
 // export default App
-export default connect()(App) 
+export default App

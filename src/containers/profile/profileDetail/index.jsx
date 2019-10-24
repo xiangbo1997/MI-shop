@@ -25,16 +25,19 @@ class profileDetail extends Component {
     
   }
   //存储收货地址
-  saveDestrict = (e) => {
+  saveDestrict = (district) => {
     // let data = { district }
-    console.log('存储数据', e)
-    this.setState({
-      district: e
-    })
-    console.log(this.state.district)
-    this.props.updateDistrict(this.state.district)
+    
+    let arr = district
+    
+   
+    this.props.updateDistrict(arr)
 
 
+  }
+  componentDidMount(){
+
+      this.saveDestrict()
   }
   //切换密码明文
   changShow = () => {
@@ -70,7 +73,7 @@ class profileDetail extends Component {
     }
   }
 componentDidMount(){
-  console.log(this.props.user.password)
+ 
   
   this.setState({
     username:this.props.user.username,

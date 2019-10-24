@@ -5,50 +5,87 @@ import { List, Stepper } from 'antd-mobile';
 import { Modal, Button, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
 import './index.less';
 import axios from 'axios';
+import store from '../../redux/store';
+import { addShop, reduceShop, ischeckedShop} from '../../redux/action-creators';
+
 const alert = Modal.alert;
 class ShopCarItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
            shopNum:1,
-           isChecked:false,
+           isChecked:true,
+           changeView:true,
         };
     }
     componentDidMount(){
         // axios.get('http://localhost:5000/shops')
+        // console.log(this.props)
     }
     //改变数量
     changeNum=(add)=>{
+        const { item } = this.props
         if(add){
-            if (this.state.shopNum === 10){
-                Toast.info('商品最大数量不能大于10', 0.8)
+            const action = addShop(item)
+            //更新界面
+           this.setState({
+               changeView:!this.state.changeView
+           })
+            if (item.num === 10){
+                Toast.info('商品最大数量不能大于10', 0.5)
                 return
             }
-            this.setState({
-                shopNum:++this.state.shopNum
-            })
+            store.dispatch(action)
+            // this.number = store.getState().shops[this.props.index].num
+            // console.log(this.number)
+            // this.setState({
+            //     shopNum:++this.state.shopNum
+            // })
         }else{
-            if (this.state.shopNum ===1){
-                Toast.info('商品最小数量不能小于1',0.8)
-                return 
-            }
+            const action1 = reduceShop(item)
             this.setState({
-                shopNum: --this.state.shopNum
+                changeView: !this.state.changeView
             })
-            
-
+            if (item.num === 1) {
+                Toast.info('商品最大数量不能小于1', 0.5)
+                return
+            }
+            store.dispatch(action1)
+          
+           
         }
+        this.props.updataAllprice()
+
+        this.number = store.getState().shops[this.props.index].num
     }
-    //改变是否选中
+    //改变是否选中当前商品
     changeIsChecked=()=>{
+        this.item = this.props.item
+        const { item } = this
         this.setState({
             isChecked: !this.state.isChecked
-
         })
+        const action = ischeckedShop(item)
+        store.dispatch(action)
+        this.props.updataAllprice()
+        
     }
-    
+    // componentDidUpdate(){
+    //     this.item = this.props.item
+    //     this.number = store.getState().shops[this.props.index].num
+
+    // }
     render() {
         const alert = Modal.alert;
+        this.item = this.props.item
+        const {item ,index} = this.props
+        const { isChecked} = store
+        // if (this.number){
+        //     this.number = store.getState().shops[this.props.index].num
+        // }
+       
+
+        // let  item  = store.getState().shops[this.props.index]
         return (
            <div>
                 {/* 具体加入购物车的商品 */}
@@ -70,12 +107,12 @@ class ShopCarItem extends Component {
                                     </div>
                                 </div>
                                 <div className="pic">
-                                    <img src="//cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1571387136.02255722.jpg" alt="" />
+                                    <img src={item.entryImg} alt="" />
                                 </div>
                                 <div className="content">
                                     <div className="desc">
-                                        <span>Redmi 8A 3GB+32GB 耀夜黑</span>
-                                        <span className="price">售价：699元</span>
+                                        <span>{item.name} {item.version[0]} {item.color[0]}</span>
+                                        <span className="price">售价:{item.price}元</span>
                                     </div>
                                     <div className="num">
                                         {/* 增加数量的组件 */}
@@ -88,7 +125,7 @@ class ShopCarItem extends Component {
                                         <WingBlank className="numItem">
                                             <WhiteSpace />
                                             <Button className="reduce" onClick={() => this.changeNum(0)}>-</Button>
-                                            <div className="number">{this.state.shopNum}</div>
+                                            <div className="number">{store.getState().shops[this.props.index].num}</div>
                                             <Button className="add" onClick={() => this.changeNum(1)}>+</Button> 
                                         </WingBlank>
                                     
@@ -104,7 +141,7 @@ class ShopCarItem extends Component {
                                                     alert('删除商品', '客观，你确定要删除此商品吗？', [
                                                         { text: '取消', onPress: () => {} },
                                                         { text: '确定', onPress: () => {
-                                                            this.props.deleteShopItem(0)
+                                                            this.props.deleteShopItem(index)
                                                         } },
                                                     ])
                                                 }

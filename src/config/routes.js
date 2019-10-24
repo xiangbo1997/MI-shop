@@ -3,7 +3,7 @@ import Entry from '../containers/entry'
 import Profile from '../containers/profile'
 import ShoppingCart from '../containers/shoppingcart'
 import Home from '../containers/home'
-import ShopDetail from '../containers/ShopDetail/ShopDetail';
+import ShopDetail from '../containers/ShopDetail/ShopDetail'
 //配置weixin二级路由
 import LoginWeiXin from '../containers/login/weixin'
 import AboutUs from '../containers/login/aboutMe'
@@ -59,7 +59,6 @@ const routes =[
   },
   {
     path: '/shopdetail',
-    exact: true,
     component: ShopDetail
   }
 ]

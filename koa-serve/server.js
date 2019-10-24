@@ -3,19 +3,18 @@ const Router = require('koa-router')
 var cors = require('koa-cors');
 const app = new Koa()
 const router = new Router()
-const homeList = require('./datas/home.json')
-const list = require('./datas/list.json')
-//首页数据
+const homeList = require('./datas/home')
 router.get('/firstpage', function (ctx) {
  const result = ctx.query.req
  console.log(result)
   ctx.body = homeList
 })
 //分类
+const list = require('./datas/list')
 router.get('/list', function (ctx) {
   const result = ctx.query.req
   console.log(result)
-  ctx.body = result
+  ctx.body = list
 })
 //用户信息
 router.get('/login', function (ctx) {

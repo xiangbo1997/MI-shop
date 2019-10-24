@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, NavLink, Switch, Route,Redirect} from 'react-router-dom';
+import Entry from '../../containers/entry'
+import Home from '../../containers/home'
+import ShoppingCart from '../../containers/shoppingcart'
+import ShopDetail from '../../containers/ShopDetail/ShopDetail'
+import Profile from '../../containers/profile'
 import './index.less'
-import '../../assets/iconfont.css'
 import routes from '../../config/routes'
+import '../../assets/iconfont.css'
+// import {withRouter} from 'react-router-dom'
+// @withRouter
 class Footer extends Component {
   render() {
     return (
       <Router>
-      
+       
           <ul className="footer">
-            <li><Link to="/home"><i className="iconfont icon-home" /> <p>首页</p></Link></li>
-            <li><Link to="/entry"> <i className="iconfont icon-icon_category" /><p>分类</p></Link></li>
-            <li><Link to="/shoppingcart"><i className="iconfont icon-gouwuche-xianxing" /><p>购物车</p></Link></li>
-            <li><Link to="/profile"><i className="iconfont icon-user" /><p>我的</p></Link></li>
+            <li><NavLink to="/home" className="" activeClassName="active"  activeStyle={{color: '#ED5B00'}}><i className="iconfont icon-home" /> <p>首页</p></NavLink></li>
+            <li><NavLink to="/entry" activeStyle={{color: '#ED5B00'}}> <i className="iconfont icon-icon_category" /><p>分类</p></NavLink></li>
+            <li><NavLink to="/shoppingcart" activeStyle={{color: '#ED5B00'}}><i className="iconfont icon-gouwuche-xianxing" /><p>购物车</p></NavLink></li>
+            <li><NavLink to="/profile" activeStyle={{color: '#ED5B00'}}><i className="iconfont icon-user" /><p>我的</p></NavLink></li>
           </ul>
           <Switch>
             {
@@ -24,8 +31,12 @@ class Footer extends Component {
             {/* 不写path 就是匹配所有路径 */}
            
           </Switch>
+
+      
+       
         
       </Router>
+      
     )
   }
 }

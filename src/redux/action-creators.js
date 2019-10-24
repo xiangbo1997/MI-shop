@@ -1,14 +1,18 @@
-import { GETHOMEPAGE, GTE_USER,UPDATE_USER,REMOVE_USER ,SAVE_DISTRICT} from './action-types'
+import { GETHOMEPAGE, GTE_USER,UPDATE_USER,REMOVE_USER ,SAVE_DISTRICT, IS_CHECKED,DELETE_SHOP,ADD_SHOP,REDUCE_SHOP} from './action-types'
 import { rehomepage, reUserInfo } from '../api'
-export const gethome_page = (pages) => ({ type: GETHOMEPAGE, data: pages })
-export const gethome_pages = () => {
-  return async (dispatch) => {
-    const result = await rehomepage();
-    dispatch(gethome_page(result))
+export const gethome_page = (pages)=>({type:GETHOMEPAGE,data:pages})
+export const gethome_pages = ()=>{
+  return async (dispatch)=>{
+       const result = await rehomepage();
+       dispatch(gethome_page(result))
   }
 };
 
 
+export const addShop = (shop)=>({type:ADD_SHOP,data:shop})
+export const reduceShop = (shop) =>({type:REDUCE_SHOP,data:shop})
+export const ischeckedShop = (isChecked) => ({type: IS_CHECKED,data:isChecked})
+export const deleteShop = (shop) => ({type: DELETE_SHOP,data:shop})
 
 
 // const updateCategorySuccess = (category) => ({type: UPDATE_CATEGORY_SUCCESS, data: category});
@@ -23,11 +27,11 @@ export const gethome_pages = () => {
 //获取用户信息
 const getUserInfoSuccess = (user) => ({ type: GTE_USER, data: user })
 export const getUsrInfo =  (username, password) => {
-  console.log(username, password)
+ 
   return async (dispatch) => {
    
     const result = await reUserInfo(username, password);
-    console.log(result)
+   
     dispatch(getUserInfoSuccess(result.data))
   }
 }

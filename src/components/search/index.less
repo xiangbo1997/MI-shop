@@ -1,19 +1,37 @@
-@rem:375/10rem*1.8;
-.search{
-  height: 80/@rem;
+@rem: 375/10rem*2;
+.searchcontainer{
   width: 100%;
-  border-radius: 15/@rem;
-  margin-top: 2/@rem;
-  font-size: 38/@rem;
-  background-color:rgb(156, 122, 156);
-  // padding-left: 100px;
-  // padding-left: 100px;
+  height: 70/@rem;
+  position: fixed;
+  top:0/@rem;
+  background-color: white;
+  img{
+    width: 50/@rem;
+    height: 32/@rem;
+    text-align: center;
+    margin-left: 25/@rem;
+  }
+  .search{
+    height: 65/@rem;
+    width: 75%;
+    border-radius: 5/@rem;
+    margin-top: 2/@rem;
+    font-size: 38/@rem;
+    background-color:white;
+    margin-left: 20/@rem;
+    
+  }
+  .icon-user{
+   font-size: 40/@rem;
+   margin-left: 30/@rem;
+  }
 }
+
 input::-webkit-input-placeholder{color:#fff} /* 使用webkit内核的浏览器 */ 
 input:-moz-placeholder{color:#fff} /* Firefox版本4-18 */ 
 input::-moz-placeholder{color:#fff} /* Firefox版本19+ */ 
 input:-ms-input-placeholder{color:#fff}
-.search::-webkit-input-placeholder {
+input::-webkit-input-placeholder {
 color:red;
 font-size: 34/@rem;
 text-align: center;

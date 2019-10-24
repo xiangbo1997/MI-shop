@@ -82,7 +82,7 @@ class Login extends Component {
   //点击报错图标触发的函数(高阶函数方便复用)
   onErrorClick = (e) => {
     return () => {
-      console.log(e)
+      // console.log(e)
 
       if (e === '手机号码') {
         if (this.state.valuePhone.hasError) {
@@ -186,7 +186,7 @@ class Login extends Component {
 
        
         if (!reg.test(value)) {
-          console.log('成功')
+          // console.log('成功')
           this.setState({
             valueUserName: {
               hasError: true,
@@ -196,7 +196,7 @@ class Login extends Component {
 
           });
         } else {
-          console.log('错误')
+          // console.log('错误')
           this.setState({
             valueUserName: {
               hasError: false,
@@ -292,17 +292,8 @@ class Login extends Component {
       }
     }
   
-    // getUsrInfo('xiaoming',123)
-    // getUsrInfo()
-    // const result =await reUsrInfo('xiaoming',123)
-    console.log(this.props)
+    
   }
-
-
-
-
-
-
 
   //登陆方式切换
   goToLoginUser = () => {
@@ -369,8 +360,7 @@ class Login extends Component {
     showOrHidden(this, isPhone, 'username')
     showOrHidden(this, !this.state.isComplex, 'btn2')
     showOrHidden(this, this.state.isComplex, 'btn1')
-    console.log(this.props.user)
-    getUsrInfo('xiaoming',123)
+   
   }
 
 

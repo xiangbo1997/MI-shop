@@ -1,10 +1,12 @@
 import React,{Component} from 'react'
 import { connect } from 'react-redux';
 import './less/index.less'
+import {withRouter}from 'react-router-dom'
 @connect(
   (state) => ({user: state.user}),
   null
 )
+@withRouter
 class Profile extends Component {
 
   state={
@@ -78,7 +80,7 @@ class Profile extends Component {
         
         </div>
         <div className="profile-container">
-          <ul onClick={this.goToMistake('q123')}>
+          <ul onClick={this.goToMistake('会员中心')}>
             <li>
               <div className="container-left"> <i className="iconfont icon-huiyuan1"></i></div>
               <div className="container-right">
@@ -90,7 +92,7 @@ class Profile extends Component {
               <div className="container-right bottom-none">会员中心 <span> > </span></div>
             </li>
           </ul>
-          <ul onClick={this.goToMistake('q3423')}>
+          <ul onClick={this.goToMistake('服务中心')}>
             <li>
               <div className="container-left"> <i className="iconfont icon-fuwu"></i></div>
               <div className="container-right">
@@ -102,7 +104,7 @@ class Profile extends Component {
               <div className="container-right bottom-none">小米之家 <span> > </span></div>
             </li>
           </ul>
-          <ul onClick={this.goToMistake('q234')}>
+          <ul onClick={this.goToMistake('我的F码')}>
             <li>
               <div className="container-left"> <i className="iconfont icon-youhui"></i></div>
               <div className="container-right">
@@ -114,7 +116,7 @@ class Profile extends Component {
               <div className="container-right bottom-none">礼物码兑换 <span> > </span></div>
             </li>
           </ul>
-          <ul id="last" onClick={this.goToMistake('q456')}>
+          <ul id="last" onClick={this.goToMistake('会员中心')}>
             
             <li>
             <div className="container-left"> <i className="iconfont icon-huiyuan2"></i></div>

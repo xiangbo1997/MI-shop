@@ -11,7 +11,11 @@ import { Toast, WhiteSpace, Button } from 'antd-mobile';
 import './index.less';
 import utilsFunc from '../../util/index';
 import BScroll from 'better-scroll';
-const { showOrHidden } = utilsFunc
+import store from '../../redux/store.js'
+//redux
+import { addShop} from '../../redux/action-creators';
+import { previewImage } from 'antd/lib/upload/utils';
+@withRouter
 class ShopDetail extends Component {
     constructor(props){
         super(props);
@@ -19,7 +23,7 @@ class ShopDetail extends Component {
             // 是否显示选择商品的那个遮罩
             isShowChooseShop:false,
             //购买数量
-            buyNum:0,
+            // buyNum:0,
             //颜色
             color:true,
             //版本
@@ -29,18 +33,27 @@ class ShopDetail extends Component {
         }
     }
   componentDidMount(){
-   
+      
         //滑动
       let wrapper = document.querySelector('.shop-detail')
       this.scroll = new BScroll(wrapper, {
           click: true
       })
     //   console.log(this.props.location,'---------------')
+    //如果路由传参了就用，并且存储到本地，如果刷新了，那么取出来即可
     const {query} = this.props.location
     if(query){
+        localStorage.setItem('showShop',JSON.stringify(query.item))
         this.setState({
-            shop:query.item
+            shop: query.item 
         })
+
+    }else{
+        this.setState({
+            shop: JSON.parse(localStorage.getItem('showShop'))
+        })
+        // console.log(this.state.shop,'..............')
+
     }
     setTimeout(() => {
         //   轮播图
@@ -50,6 +63,7 @@ class ShopDetail extends Component {
             loop: true,
         });   
     }, 0);
+    
     // console.log(this.state.shop)
     //   setTimeout(() => {
     //       if (this.props.location.query) {
@@ -58,11 +72,14 @@ class ShopDetail extends Component {
     //          })
     //       }
     //   }, 0);
-    //   console.log(this.state.shop, '-------------------')
-
-
+    //   console.log(this.state.shop, '-------------------
        
     }
+     componentDidUpdate(){
+         const { shops} = store.getState()
+        // console.log(shops)
+
+     }
     //样例函数
     func = () => {
 
@@ -78,15 +95,26 @@ class ShopDetail extends Component {
         // scrollTo(0, 0);
         // this.refs.shopDetail.style.transform =`translateY(-${this.refs.shopDetail.scrollTop})`
     }
-    //真正的加入购物车
+
+
+    //真正的加入购物车!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     realjoinShopCar=()=>{
         //选择界面消失
         this.showchooseshop();
-        this.setState({
-            buyNum:++this.state.buyNum
-        })
+        // this.setState({
+        //     buyNum:++this.state.buyNum
+        // })
         //提示加入购物车成功
-        Toast.success('加入购物车成功', 2);
+        Toast.success('加入购物车成功', 1);
+        // alert("成功加入购物车")
+        const {shop} = this.state 
+        shop.isChecked=true
+        const action = addShop(shop)
+        store.dispatch(action)
+        // console.log()
+
+        
+
     }
     // 选择不同的版本
     changeVersion=(num)=>{
@@ -109,8 +137,19 @@ class ShopDetail extends Component {
     goHome=()=>{
         // this.props.history.push('/home')
     }
+    componentDidUpdate(){
+      
+    }
     render() {
+        //获取当前的商品
         const { shop } = this.state
+        //获取购物车中的商品
+        const { shops } = store.getState()
+        //计算购物车中的数量
+        // const shopsNumber = store.getState().shops.reduce((prev,now)=>{
+        //     return (prev.num ? prev.num : 0 + now.num)
+        // },0)
+        let shopsNumber = store.getState().shops.length
         return (
             <div className="shop-detail" ref="shopDetail" >
                 <div>
@@ -135,8 +174,12 @@ class ShopDetail extends Component {
                     </div>
                     {/*返回按钮  */}
                     <div className="goback" onClick={this.goPrevPage}>&lt;</div>
-                    {/* 分析按钮 */}
+                    {/* 分享按钮 */}
+                    {/* <div className="share">
+                        <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1227208152,323699653&fm=26&gp=0.jpg" alt=""/>
+                    </div> */}
                     <div className="share">
+                        <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1227208152,323699653&fm=26&gp=0.jpg" alt="" />
                     </div>
                     <div className="desc">
                         <div className="shop-name">
@@ -278,8 +321,13 @@ class ShopDetail extends Component {
                     <div className="join-shopcar" onClick={this.showchooseshop}>
                         加入购物车
                         </div>
-                    <div className={this.state.buyNum === 0 ? 'have-shop hidden' : 'have-shop'}>
+                        
+                    {/* <div className={this.state.buyNum === 0 ? 'have-shop hidden' : 'have-shop'}>
                         {this.state.buyNum}
+                    </div> */}
+                    
+                    <div className={shopsNumber === 0 ? 'have-shop hidden' : 'have-shop'}>
+                        {shopsNumber}
                     </div>
                     {/* 点击加入购物车的弹窗 */}
                     <div className={this.state.isShowChooseShop ? 'choose-connect' : 'choose-connect hidden'} ref="chooseConnect">
@@ -289,12 +337,12 @@ class ShopDetail extends Component {
                         <div className="content">
                             <div className="content-top">
                                 <div className="content-left">
-                                    <img src="//cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1570878968.43715224.jpg" alt="" />
+                                    <img src={shop ? shop.entryImg:''} alt="" />
                                 </div>
                                 <div className="content-right">
                                     <span className="price">￥{shop?shop.price:''}</span>
                                     <span className="version-content">{shop ? shop.name : ''}  {shop ? this.state.version ? shop.version[1] : shop.version[0]:''} 
-                                        {shop ? this.state.color ? shop.color[1] : shop.color[0] : ''}
+                                        {shop ? this.state.color ? shop.color[0] : shop.color[1] : ''}
                                     </span>
                                 </div>
                             </div>
@@ -337,9 +385,7 @@ class ShopDetail extends Component {
                             {/* <div className="join-shop-car-now" onClick={this.realjoinShopCar}>
                                 加入购物车
                             </div> */}
-                            <WhiteSpace />
                             <Button className="join-shop-car-now" onClick={this.realjoinShopCar}>点击加入购物车</Button>
-                            <WhiteSpace />
                             <div className="close" onClick={this.showchooseshop}>
                                 X
                             </div>
